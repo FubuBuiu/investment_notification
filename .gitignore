@@ -1,0 +1,115 @@
+# ============================================
+# DEPENDÊNCIAS
+# ============================================
+node_modules/
+.pnp
+.pnp.js
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ============================================
+# AMBIENTE E CONFIGURAÇÕES
+# ============================================
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+.env.example
+
+# ============================================
+# BUILD E DIST
+# ============================================
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# ============================================
+# LOGS
+# ============================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ============================================
+# TESTES E COBERTURA
+# ============================================
+coverage/
+.nyc_output/
+*.lcov
+
+# ============================================
+# PRISMA ESPECÍFICO
+# ============================================
+# Banco de dados local SQLite (gerado pelo Prisma)
+*.db
+*.db-journal
+dev.db
+dev.db-journal
+test.db
+test.db-journal
+
+# Migrations geradas automaticamente em dev (opcional)
+# Descomente se quiser ignorar migrations locais
+# prisma/migrations/
+
+# Cliente gerado (se usar output customizado)
+# prisma/generated/
+
+# ============================================
+# FASTIFY / SERVIDOR
+# ============================================
+# Arquivos de PID
+*.pid
+*.seed
+*.pid.lock
+
+# Uploads temporários
+uploads/
+tmp/
+temp/
+*.tmp
+
+# ============================================
+# TYPESCRIPT (se usar)
+# ============================================
+*.js
+*.js.map
+*.d.ts
+!jest.config.js
+!eslint.config.js
+
+# ============================================
+# FERRAMENTAS DE DESENVOLVIMENTO
+# ============================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ESLint e Prettier cache
+.eslintcache
+.prettiercache
+
+# ============================================
+# DOCKER
+# ============================================
+docker-compose.override.yml
+.dockerignore~
+
+# ============================================
+# CERTIFICADOS E CHAVES
+# ============================================
+*.pem
+*.key
+*.crt
