@@ -17,7 +17,6 @@ pnpm-lock.yaml
 .env.development
 .env.test
 .env.production
-.env.example
 
 # ============================================
 # BUILD E DIST
