@@ -1,0 +1,6 @@
+services:
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Senha do usuário do banco
+    ports:
+      - "${POSTGRES_PORT}:5432" # Mapeia a porta do host (variável) para a porta 5432 do container

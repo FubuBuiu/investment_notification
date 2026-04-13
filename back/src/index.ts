@@ -1,7 +1,35 @@
-import { User } from '@/domain/entities/User';
-import { CreateUserUseCase } from '@/domain/usecases/CreateUserUseCase';
-import { AuthService } from '@/application/services/AuthService';
-import { databaseConfig } from '@/config/database';
+import signale from "signale";
 
-console.log('Investment Notification API');
-console.log('Database config:', databaseConfig);
+import { PrismaConnection } from "./infrastructure/database/prismaClient";
+
+async function main() {
+  try {
+    //DATABASE CONNECTION
+    const connection = await PrismaConnection.getInstance().connect();
+
+    //HTTP SERVER
+    const httpApp = new HttpServer(connection);
+    const app = httpApp.start();
+
+    //HTTP LISTEN
+    if (!process.env.PORT) {
+      signale.warn("PORTA NÃO DEFINIDA, UTILIZANDO PORTA PADRÃO");
+    }
+    const port = process.env.PORT ?? "3001";
+    const httpserver = app.listen(port, () => {
+      signale.success(`HTTP Server running at http://localhost:${port}`);
+    });
+
+    process.on("SIGINT", () =>
+      gracefulShutdown("SIGINT", httpserver, httpserver),
+    );
+    process.on("SIGTERM", () =>
+      gracefulShutdown("SIGTERM", httpserver, httpserver),
+    );
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
+
+main();

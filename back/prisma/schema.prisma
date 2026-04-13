@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -10,4 +5,79 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id          String   @id @default(uuid())
+  name        String
+  phoneNumber String   @unique // formato: 5511999999999
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  investments UserInvestment[]
+
+  @@index([phoneNumber])
+}
+
+enum AssetClassType {
+  STOCK // Ações(BDRs/Globais,Brasileiras)
+  CRYPTO // Criptomoeda
+  FII // Fundos Imobiliários
+  FIXED_INCOME // Renda Fixa
+  ETF // Fundos de Indices
+  OTHER
+}
+
+enum MarketType {
+  BRAZIL
+  INTERNATIONAL
+  BDR
+}
+
+enum ExchangeCodeType {
+  BZ
+  US
+  CRYPTO
+  FIXED
+}
+
+model Investment {
+  id String @id @default(cuid())
+
+  ticker       String // VALE3, AAPL, BTC
+  market       MarketType
+  assetClass   AssetClassType
+  name         String // "NVIDIA BDR", "Bitcoin" - nome amigável
+  // contexto de mercado
+  exchangeCode ExchangeCodeType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users UserInvestment[]
+
+  @@unique([ticker, exchangeCode])
+  // REGRA DE NEGÓCIO (não duplicar ativo)
+  @@index([ticker, exchangeCode])
+}
+
+model UserInvestment {
+  id       String  @id @default(uuid())
+  userId   String
+  inputRaw String? // o que o usuário digitou
+
+  investmentId   String
+  // controle
+  isActive       Boolean   @default(true)
+  lastNotifiedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  investment Investment @relation(fields: [investmentId], references: [id])
+
+  @@unique([userId, investmentId])
+  @@index([userId])
 }

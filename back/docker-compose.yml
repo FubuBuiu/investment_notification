@@ -1,0 +1,21 @@
+services: # Lista de serviços (containers) que serão criados
+  postgres: # Nome do serviço (usado como hostname dentro da rede do Docker)
+    image: postgres:16-alpine # Imagem oficial do PostgreSQL (versão 16 com base Alpine, mais leve)
+    container_name: ${POSTGRES_DB}_dev # Nome fixo do container baseado na variável POSTGRES_DB
+    restart: unless-stopped # Reinicia automaticamente, exceto se você parar manualmente
+
+    environment: # Variáveis de ambiente passadas para o container
+      POSTGRES_USER: ${POSTGRES_USER} # Usuário administrador do banco
+      POSTGRES_DB: ${POSTGRES_DB} # Nome do banco criado automaticamente na inicialização
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Volume persistente para salvar os dados do banco
+
+    healthcheck: # Verifica se o container está saudável (banco pronto para uso)
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"] # Teste de conexão com o banco
+      interval: 5s # Executa a checagem a cada 5 segundos
+      timeout: 5s # Tempo máximo para cada checagem
+      retries: 5 # Número de tentativas antes de marcar como "unhealthy"
+
+volumes:
+  postgres_data: # Declaração do volume nomeado usado para persistir os dados

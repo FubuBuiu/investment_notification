@@ -103,8 +103,7 @@ Thumbs.db
 # ============================================
 # DOCKER
 # ============================================
-docker-compose.override.yml
-.dockerignore~
+# docker-compose.override.yml
 
 # ============================================
 # CERTIFICADOS E CHAVES
