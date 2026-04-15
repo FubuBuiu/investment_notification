@@ -3,28 +3,37 @@
 // import { AuthService } from '../../../application/services/AuthService';
 // import { CreateUserDto } from '../../../application/dto/CreateUserDto';
 
-export class UserController implements IUserControllers {
-  constructor(private readonly userUseCases: IUserUseCases) {}
+import { Request, Response } from 'express';
 
+import { UserDTO } from '@/application/dto/UserDTO';
+import { IUserUseCase } from '@/domain/usecases/UserUseCase';
+
+import { Created, ErrorResponse } from '../handlers/httpResponder';
+
+export interface IUserController {
+  create(req: Request, res: Response): Promise<Response>;
+  update(req: Request, res: Response): Promise<Response>;
+  getById(req: Request, res: Response): Promise<Response>;
+  delete(req: Request, res: Response): Promise<Response>;
+}
+export class UserController implements IUserController {
+  constructor(private readonly userUseCases: IUserUseCase) {}
   async create(req: Request, res: Response): Promise<Response> {
     try {
-      const data = req.body;
+      const data: UserDTO.Create.Input = req.body;
       const response = await this.userUseCases.create(data);
       return Created(res, { data: response });
     } catch (error) {
       return ErrorResponse(res, error);
     }
   }
-  async getAll(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
+  update(req: Request): Promise<Response> {
+    throw new Error('Method not implemented.');
   }
-  async getById(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
+  getById(req: Request): Promise<Response> {
+    throw new Error('Method not implemented.');
   }
-  async update(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
-  }
-  async delete(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
+  delete(req: Request): Promise<Response> {
+    throw new Error('Method not implemented.');
   }
 }
