@@ -17,7 +17,6 @@ export const createUserSchema = zod.object({
   name,
   phoneNumber,
 });
-
 export const updateUserSchema = zod.object({
   id,
   name: name.optional(),

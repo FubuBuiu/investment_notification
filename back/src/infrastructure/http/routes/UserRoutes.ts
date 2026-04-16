@@ -16,6 +16,14 @@ export class UserRoutes {
       return this.userController.update(req, res);
     });
 
+    router.get('/:id', (req, res) => {
+      return this.userController.getById(req, res);
+    });
+
+    router.delete('/:id', (req, res) => {
+      return this.userController.delete(req, res);
+    });
+
     return router;
   }
 }

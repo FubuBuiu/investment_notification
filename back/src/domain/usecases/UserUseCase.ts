@@ -42,7 +42,7 @@ export class UserUseCase implements IUserUseCase {
     }
 
     if (!user.active) {
-      throw AppError.forbidden('User is inactive.');
+      throw AppError.forbidden('User is inactive!');
     }
 
     const updatedUser = user.update(input);
@@ -50,10 +50,18 @@ export class UserUseCase implements IUserUseCase {
 
     return output;
   }
-  getById(input: UserDTO.GetById.Input): Promise<UserDTO.GetById.Output> {
-    throw new Error('Method not implemented.');
+  async getById(input: UserDTO.GetById.Input): Promise<UserDTO.GetById.Output> {
+    const user = await this.userRepository.getById(input);
+    if (!Util.isDefined(user)) {
+      throw AppError.notFound('User not found!');
+    }
+    return user;
   }
-  delete(input: UserDTO.Delete.Input): Promise<UserDTO.Delete.Output> {
-    throw new Error('Method not implemented.');
+  async delete(input: UserDTO.Delete.Input): Promise<UserDTO.Delete.Output> {
+    const user = await this.findUserById(input);
+    if (!Util.isDefined(user)) {
+      throw AppError.notFound('User not found!');
+    }
+    await this.userRepository.delete(input);
   }
 }
