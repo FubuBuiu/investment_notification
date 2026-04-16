@@ -14,6 +14,7 @@ export namespace UserTypes {
     export type Input = {
       phoneNumber?: string;
       name?: string;
+      active?: boolean;
     };
     export type Output = User;
   }

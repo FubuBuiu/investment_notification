@@ -5,7 +5,7 @@ import { UserDTO } from '@/application/dto/UserDTO';
 import { UserUseCase } from '@/domain/usecases/UserUseCase';
 import { AppError } from '@/errors/AppError';
 
-import { UserRepositoryMock } from '../mocks/UserRepositoryMock';
+import { UserRepositoryMock } from '../../../mocks/UserRepositoryMock';
 
 test('UserUseCase.create() - Caso de Uso', async (t) => {
   let userRepository: UserRepositoryMock;

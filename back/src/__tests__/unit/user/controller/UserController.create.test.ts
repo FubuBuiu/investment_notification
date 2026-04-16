@@ -1,4 +1,4 @@
-import * as assert from 'node:assert';
+import assert from 'node:assert';
 import { test } from 'node:test';
 
 import { Request, Response } from 'express';
@@ -7,7 +7,7 @@ import { UserDTO } from '@/application/dto/UserDTO';
 import { UserUseCase } from '@/domain/usecases/UserUseCase';
 import { UserController } from '@/infrastructure/http/controllers/UserController';
 
-import { UserRepositoryMock } from '../mocks/UserRepositoryMock';
+import { UserRepositoryMock } from '../../../mocks/UserRepositoryMock';
 
 // Mock Express Request e Response
 class MockRequest {

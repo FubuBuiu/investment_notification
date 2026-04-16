@@ -14,6 +14,7 @@ export class User {
   readonly createdAt: Date;
   readonly updatedAt: Date;
 
+  // Change to 'private constructor' in the future
   constructor(user: UserModel) {
     this.id = user.id;
     this.phoneNumber = user.phoneNumber;
