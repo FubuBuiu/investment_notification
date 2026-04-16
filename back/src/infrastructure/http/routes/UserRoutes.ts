@@ -8,8 +8,12 @@ export class UserRoutes {
   getRoutes(): Router {
     const router = express.Router();
 
-    router.post('/create', (req, res) => {
+    router.post('/', (req, res) => {
       return this.userController.create(req, res);
+    });
+
+    router.put('/:id', (req, res) => {
+      return this.userController.update(req, res);
     });
 
     return router;

@@ -11,6 +11,7 @@ export namespace UserDTO {
 
   export namespace Update {
     export type Input = {
+      id: string;
       name?: string;
       phoneNumber?: string;
       active?: boolean;
