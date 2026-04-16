@@ -6,9 +6,11 @@
 import { Request, Response } from 'express';
 
 import { UserDTO } from '@/application/dto/UserDTO';
+import { createUserSchema, updateUserSchema } from '@/application/schemas/userschema';
 import { IUserUseCase } from '@/domain/usecases/UserUseCase';
+import { idDefaultSchema } from '@/utils/globalSchema';
 
-import { Created, ErrorResponse } from '../handlers/httpResponder';
+import { Created, ErrorResponse, Ok } from '../handlers/httpResponder';
 
 export interface IUserController {
   create(req: Request, res: Response): Promise<Response>;
@@ -21,19 +23,54 @@ export class UserController implements IUserController {
   async create(req: Request, res: Response): Promise<Response> {
     try {
       const data: UserDTO.Create.Input = req.body;
-      const response = await this.userUseCases.create(data);
+
+      // Check data format
+      const validData = createUserSchema.parse(data);
+
+      const response = await this.userUseCases.create(validData);
       return Created(res, { data: response });
     } catch (error) {
       return ErrorResponse(res, error);
     }
   }
-  update(req: Request): Promise<Response> {
-    throw new Error('Method not implemented.');
+  async update(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+      const data = req.body;
+
+      // Check data format
+      const validData = updateUserSchema.parse({ id, ...data });
+
+      const response = await this.userUseCases.update(validData);
+      return Ok(res, { data: response });
+    } catch (error) {
+      return ErrorResponse(res, error);
+    }
   }
-  getById(req: Request): Promise<Response> {
-    throw new Error('Method not implemented.');
+  async getById(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      //Check id format
+      const validId = idDefaultSchema('User').parse(id);
+
+      const response = await this.userUseCases.getById(validId);
+      return Ok(res, { data: response });
+    } catch (error) {
+      return ErrorResponse(res, error);
+    }
   }
-  delete(req: Request): Promise<Response> {
-    throw new Error('Method not implemented.');
+  async delete(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      //Check id format
+      const validId = idDefaultSchema('User').parse(id);
+
+      await this.userUseCases.delete(validId);
+      return Ok(res, { message: 'User succesfully deleted' });
+    } catch (error) {
+      return ErrorResponse(res, error);
+    }
   }
 }

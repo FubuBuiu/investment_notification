@@ -5,9 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json --rootDir src --outDir dist",
-    "dev": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
     "test": "tsx --test 'src/**/*.test.ts'",
-    "test:watch": "tsx --test --watch 'src/**/*.test.ts'",
+    "test:watch": "tsx --test --test-reporter=spec --watch 'src/**/*.test.ts'",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "db:prod": "docker compose up -d",

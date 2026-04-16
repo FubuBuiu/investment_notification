@@ -1,7 +1,7 @@
 import xss from 'xss';
 import zod from 'zod';
 
-import { defaultSchema, idDefaultSchema } from '@/utils/globalSchema';
+import { idDefaultSchema } from '@/utils/globalSchema';
 
 const id = idDefaultSchema('User');
 const name = zod.string({ error: 'NAME is required' }).transform((value) => xss(value));
@@ -17,10 +17,17 @@ export const createUserSchema = zod.object({
   name,
   phoneNumber,
 });
-
-export const userSchema = zod.object({
+export const updateUserSchema = zod.object({
   id,
-  ...createUserSchema,
-  active,
-  ...defaultSchema,
+  name: name.optional(),
+  phoneNumber: phoneNumber.optional(),
+  active: active.optional(),
 });
+
+// export const userSchema = zod.object({
+//   id,
+//   name,
+//   phoneNumber,
+//   active,
+//   ...defaultSchema,
+// });

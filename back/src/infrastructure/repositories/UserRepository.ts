@@ -1,8 +1,6 @@
 import { UserContract } from '@/domain/contracts/UserContract';
-import { AppError } from '@/errors/AppError';
 import { ErrorHandler } from '@/errors/ErrorHandler';
 import { PrismaClient } from '@/generated/prisma/client';
-import { Util } from '@/utils/util';
 
 export interface IUserRepository {
   create(input: UserContract.Create.Input): Promise<UserContract.Create.Output>;
