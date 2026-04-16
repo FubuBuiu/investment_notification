@@ -6,17 +6,23 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./dist",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "declaration": true,
     "sourceMap": true,
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["src/*"]
     },
     "types": ["node"],
     "ignoreDeprecations": "6.0"
   },
-  "include": ["src/**/*.ts", "src/**/*.json", "src/**/*.html"],
-  "exclude": ["**/*.test.ts", "node_modules", "dist", "coverage"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.json",
+    "src/**/*.html",
+    "eslint.config.ts",
+    "prisma.config.ts"
+  ],
+  "exclude": ["node_modules", "dist", "coverage"]
 }

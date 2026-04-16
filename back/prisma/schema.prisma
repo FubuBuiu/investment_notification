@@ -16,8 +16,6 @@ model User {
   updatedAt   DateTime @updatedAt
 
   investments UserInvestment[]
-
-  @@index([phoneNumber])
 }
 
 enum AssetClassType {

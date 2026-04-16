@@ -1,6 +1,11 @@
-import signale from "signale";
+import signale from 'signale';
 
-import { PrismaConnection } from "./infrastructure/database/prismaClient";
+import 'dotenv/config';
+
+import { apiConfig, databaseConfig } from './config';
+import { PrismaConnection } from './infrastructure/database/prismaClient';
+import HttpServer from './infrastructure/http/server';
+import { gracefulShutdown } from './utils/shutdown';
 
 async function main() {
   try {
@@ -12,24 +17,19 @@ async function main() {
     const app = httpApp.start();
 
     //HTTP LISTEN
-    if (!process.env.PORT) {
-      signale.warn("PORTA NÃO DEFINIDA, UTILIZANDO PORTA PADRÃO");
+    if (!apiConfig.port) {
+      signale.warn('PORTA NÃO DEFINIDA, UTILIZANDO PORTA PADRÃO');
     }
-    const port = process.env.PORT ?? "3001";
+    const port = apiConfig.port ?? '3001';
     const httpserver = app.listen(port, () => {
       signale.success(`HTTP Server running at http://localhost:${port}`);
     });
 
-    process.on("SIGINT", () =>
-      gracefulShutdown("SIGINT", httpserver, httpserver),
-    );
-    process.on("SIGTERM", () =>
-      gracefulShutdown("SIGTERM", httpserver, httpserver),
-    );
+    process.on('SIGINT', () => gracefulShutdown('SIGINT', httpserver, httpserver));
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM', httpserver, httpserver));
   } catch (error) {
     console.log(error);
     process.exit(1);
   }
 }
-
 main();

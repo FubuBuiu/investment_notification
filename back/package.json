@@ -4,9 +4,10 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json --rootDir src --outDir dist",
     "dev": "tsx src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tsx --test 'src/**/*.test.ts'",
+    "test:watch": "tsx --test --watch 'src/**/*.test.ts'",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "db:prod": "docker compose up -d",
@@ -28,6 +29,7 @@
     "pg": "^8.20.0",
     "signale": "^1.4.0",
     "tsconfig-paths": "^4.2.0",
+    "xss": "^1.0.15",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -38,7 +40,6 @@
     "eslint": "^9.39.4",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-simple-import-sort": "^13.0.0",
     "prettier": "^3.8.2",
     "prisma": "^7.7.0",
     "tsx": "^4.21.0",

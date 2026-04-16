@@ -1,8 +1,8 @@
-import express, { Request, Response } from "express";
+import express from 'express';
 
-import { PrismaClient } from "@/generated/prisma/internal/class";
+import { PrismaClient } from '@/generated/prisma/client';
 
-import routes, { setConnection } from "./routes";
+import routes, { setConnection } from './routes';
 
 const app = express();
 
@@ -12,9 +12,9 @@ export default class HttpServer {
   start() {
     //CORS
     app.use((_, res, next) => {
-      res.header("Access-Control-Allow-Origin", process.env.CORS_ORIGIN ?? "*");
-      res.header("Access-Control-Allow-Methods", "*"); // GET, PUT, POST, DELETE, OPTIONS
-      res.header("Access-Control-Allow-Headers", "*"); // Origin, X-Requested-With, Content-Type, Accept, Authorization
+      res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGIN ?? '*');
+      res.header('Access-Control-Allow-Methods', '*'); // GET, PUT, POST, DELETE, OPTIONS
+      res.header('Access-Control-Allow-Headers', '*'); // Origin, X-Requested-With, Content-Type, Accept, Authorization
       next();
     });
 
@@ -24,7 +24,7 @@ export default class HttpServer {
 
     //ROUTES
     setConnection(this.connection);
-    app.use("/api/v1", routes);
+    app.use('/api/v1', routes);
 
     return app;
   }

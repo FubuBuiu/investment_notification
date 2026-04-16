@@ -1,6 +1,11 @@
-import tseslint from "typescript-eslint";
-import importPlugin from "eslint-plugin-import";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+import importPlugin from 'eslint-plugin-import';
+import tseslint from 'typescript-eslint';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // NÃO use defineConfig() - exporte o array diretamente
 export default [
@@ -9,59 +14,62 @@ export default [
 
   // Configuração personalizada
   {
-    files: ["**/*.{js,ts,jsx,tsx}"],
+    files: ['**/*.{js,ts,jsx,tsx}'],
 
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: "./tsconfig.json",
-        tsconfigRootDir: import.meta.dirname,
-        ecmaVersion: "latest",
-        sourceType: "module",
+        project: './tsconfig.json',
+        tsconfigRootDir: __dirname,
+        ecmaVersion: 'latest',
+        sourceType: 'module',
       },
     },
 
     plugins: {
-      "@typescript-eslint": tseslint.plugin,
+      '@typescript-eslint': tseslint.plugin,
       import: importPlugin,
-      "simple-import-sort": simpleImportSort,
     },
 
     settings: {
-      "import/resolver": {
+      'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
-          project: "./tsconfig.json",
+          project: './tsconfig.json',
         },
         node: true,
       },
     },
 
     rules: {
-      // Ordenação de imports
-      "simple-import-sort/imports": "error",
-      "simple-import-sort/exports": "error",
+      'no-unused-vars': 'off',
 
       // Regras do import
-      "import/first": "error",
-      "import/newline-after-import": "error",
-      "import/no-duplicates": "error",
-      "import/no-unresolved": "error",
-      "import/no-cycle": "error",
-      "import/order": "off",
+      'import/first': 'error',
+      'import/newline-after-import': 'error',
+      'import/no-duplicates': 'error',
+      'import/no-unresolved': 'error',
+      'import/no-cycle': 'error',
+      'import/order': 'off',
 
       // Namespace
-      "@typescript-eslint/no-namespace": "off",
+      '@typescript-eslint/no-namespace': 'off',
+      // Desativa o erro para interfaces vazias
+      '@typescript-eslint/no-empty-object-type': 'off',
+      // Configura a regra do TypeScript
+      '@typescript-eslint/no-unused-vars': 'warn',
+      // Desativar o erro para tipagem any
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 
   // Config específica para JS
   {
-    files: ["**/*.js", "**/*.jsx"],
+    files: ['**/*.js', '**/*.jsx'],
     languageOptions: {
       parserOptions: {
         project: null,
       },
     },
   },
-] satisfies import("eslint").Linter.Config[];
+] satisfies import('eslint').Linter.Config[];
