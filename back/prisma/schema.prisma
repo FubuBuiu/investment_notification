@@ -56,8 +56,6 @@ model Investment {
   users UserInvestment[]
 
   @@unique([ticker, exchangeCode])
-  // REGRA DE NEGÓCIO (não duplicar ativo)
-  @@index([ticker, exchangeCode])
 }
 
 model UserInvestment {
